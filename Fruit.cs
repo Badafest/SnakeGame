@@ -12,7 +12,7 @@ namespace SnakeGame
         public void Spawn()
         {
             Position[0] = Random.Next(GameFrame.Left + 1, GameFrame.Right - 1);
-            Position[1] = Random.Next(GameFrame.Top + 1, GameFrame.Bottom - 1);
+            Position[1] = Random.Next(GameFrame.Top + 1, GameFrame.Bottom - 5);
         }
 
         public Fruit()
@@ -30,7 +30,7 @@ namespace SnakeGame
         {
             Console.SetCursorPosition(12, 36);
             Console.Write($"{x},{y} : {Position[0]},{Position[1]}");
-            return (Math.Abs(y - Position[1]) < 2) && (Math.Abs(x - Position[0]) < 2);
+            return (y == Position[1]) && (Math.Abs(x - Position[0]) < 2);
         }
     }
 }

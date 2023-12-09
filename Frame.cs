@@ -42,8 +42,8 @@ namespace SnakeGame
 
         public bool TouchedBorder(int x, int y)
         {
-            var XTouched = x < (Left - 1) || x > (Right + 1);
-            var yTouched = y < (Top - 1) || y > (Bottom + 1);
+            var XTouched = x < Left || x > Right;
+            var yTouched = y < Top || y > Bottom;
             return XTouched || yTouched;
         }
 

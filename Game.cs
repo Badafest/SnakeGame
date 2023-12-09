@@ -32,27 +32,26 @@ namespace SnakeGame
             {
                 Task.Run(ListenKeyPress);
                 GameFrame.Draw();
-                GameSnake.Draw();
+                bool ateOwnTail = GameSnake.Draw();
+                if (GameFrame.TouchedBorder(GameSnake.HeadX, GameSnake.HeadY) || ateOwnTail)
+                {
+                    GameRunning = false;
+                    GameFrame.CenteredText(Message.GameOverTexts(Score).Concat(Message.Instructions).ToArray());
+                    break;
+                }
                 GameFruit.Draw();
                 if (GameFruit.Eaten(GameSnake.HeadX, GameSnake.HeadY))
                 {
                     GameFruit.Spawn();
                     GameSnake.Grow();
                 }
-                int Score = GameSnake.Length - SnakeResetState[0];
+                Score = GameSnake.Length - SnakeResetState[0];
                 Level = Math.Min(1 + (Score / 10), 10);
                 GameFrame.CenteredText($"SCORE: {Score} | LEVEL: {Level}".PadLeft(GameFrame.Width - 3), GameFrame.Height / 2 + 6);
-                if (GameFrame.TouchedBorder(GameSnake.HeadX, GameSnake.HeadY))
-                {
-                    GameRunning = false;
-                    GameFrame.CenteredText(Message.GameOverTexts(Score).Concat(Message.Instructions).ToArray());
-                }
-
-                Thread.Sleep(550 - (Level * 50));
+                Thread.Sleep(250 - (Level * 50));
             }
 
             ListenKeyPress();
-            Init();
         }
 
         private void ListenKeyPress()

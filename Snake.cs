@@ -61,6 +61,10 @@ namespace SnakeGame
         {
             Anchor[0] = HeadX;
             Anchor[1] = HeadY;
+            if (direction == CurrentDirection)
+            {
+                return;
+            }
             switch (direction)
             {
                 case Direction.UP:
@@ -107,31 +111,45 @@ namespace SnakeGame
             }
         }
 
-        public void Draw()
+        public bool Draw()
         {
             int x = TailX;
             int y = TailY;
+            int[][] coords = new int[Length - 1][];
 
             for (int i = Length - 1; i >= 0; i--)
             {
+                Console.SetCursorPosition(x, y);
+                Console.Write(StateCharacter(i));
                 if (i > 0)
                 {
                     State[i] = State[i - 1];
+                    coords[Length - 1 - i] = new int[] { x, y };
+                }
+                else
+                {
+                    HeadX = x;
+                    HeadY = y;
                 }
                 var offset = StateOffset(i);
-                Console.SetCursorPosition(x, y);
-                Console.Write(StateCharacter(i));
                 x += offset[0];
                 y += offset[1];
             }
 
-            HeadX = x;
-            HeadY = y;
+            for (int i = 0; i < coords.Length; i++)
+            {
+                if (coords[i][0] == HeadX && coords[i][1] == HeadY)
+                {
+                    return true;
+                }
+            }
 
             var tailOffset = StateOffset(Length - 1);
 
             TailX += tailOffset[0];
             TailY += tailOffset[1];
+
+            return false;
         }
     }
 
