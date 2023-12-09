@@ -9,15 +9,21 @@ namespace SnakeGame
         public readonly int Top;
         public readonly int Bottom;
 
-        public Frame(int Height = 100, int Width = 100)
+        public Frame(int height = 100, int width = 100)
         {
-            this.Height = Height / 3;
-            this.Width = Width;
+            Height = 3 * height / 7;
+            Width = width;
             Left = 1;
             Top = 1;
-            Right = this.Width - 2;
-            Bottom = this.Height;
+            Right = Width - 2;
+            Bottom = Height;
             Console.CursorVisible = false;
+        }
+
+        public static void Clear()
+        {
+            Console.Clear();
+            Console.CursorVisible = true;
         }
 
         public void Draw()
@@ -36,15 +42,23 @@ namespace SnakeGame
 
         public bool TouchedBorder(int x, int y)
         {
-            var XTouched = x <= Left || x >= Right;
-            var yTouched = y <= Top || y >= Bottom;
+            var XTouched = x < (Left - 1) || x > (Right + 1);
+            var yTouched = y < (Top - 1) || y > (Bottom + 1);
             return XTouched || yTouched;
         }
 
-        public void CenteredText(string Text, int Line = 0)
+        public void CenteredText(string text, int line = 0)
         {
-            Console.SetCursorPosition(Left + (Width - Text.Length) / 2, Top + (Height / 2) - 5 + Line);
-            Console.Write(Text);
+            Console.SetCursorPosition(Left + (Width - text.Length) / 2, Top + (Height / 2) - 5 + line);
+            Console.Write(text);
+        }
+
+        public void CenteredText(string[] texts)
+        {
+            for (int i = 0; i < texts.Length; i++)
+            {
+                CenteredText(texts[i], i);
+            }
         }
     }
 }
