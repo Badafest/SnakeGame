@@ -12,6 +12,8 @@ namespace SnakeGame
         private int Score = 0;
 
         private int Level = 1;
+
+        private int HighScore = 0;
         public void Init()
         {
             if (SnakeResetState == null)
@@ -35,20 +37,22 @@ namespace SnakeGame
                 bool ateOwnTail = GameSnake.Draw();
                 if (GameFrame.TouchedBorder(GameSnake.HeadX, GameSnake.HeadY) || ateOwnTail)
                 {
+                    GameFrame.Draw();
                     GameRunning = false;
-                    GameFrame.CenteredText(Message.GameOverTexts(Score).Concat(Message.Instructions).ToArray());
+                    GameFrame.CenteredText(Message.GameOverTexts(Score, HighScore).Concat(Message.Instructions).ToArray());
                     break;
                 }
-                GameFruit.Draw();
+                GameFruit.Draw(Level);
                 if (GameFruit.Eaten(GameSnake.HeadX, GameSnake.HeadY))
                 {
                     GameFruit.Spawn();
                     GameSnake.Grow();
+                    Score += Level;
                 }
-                Score = GameSnake.Length - SnakeResetState[0];
-                Level = Math.Min(1 + (Score / 10), 10);
-                GameFrame.CenteredText($"SCORE: {Score} | LEVEL: {Level}".PadLeft(GameFrame.Width - 3), GameFrame.Height / 2 + 6);
-                Thread.Sleep(250 - (Level * 50));
+                HighScore = Math.Max(Score, HighScore);
+                Level = Math.Min(1 + ((GameSnake.Length - SnakeResetState[0]) / 10), 10);
+                GameFrame.CenteredText($"LEVEL: {Level} | SCORE: {Score} | HIGH: {HighScore}".PadLeft(GameFrame.Width - 3), GameFrame.Height / 2 + 7);
+                Thread.Sleep(220 - (Level * 20));
             }
 
             ListenKeyPress();

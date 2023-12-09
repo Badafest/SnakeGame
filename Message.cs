@@ -19,12 +19,12 @@ namespace SnakeGame
             Separator
         };
 
-        public static string[] GameOverTexts(int score)
+        public static string[] GameOverTexts(int score, int highScore)
         {
             string[] gameOverTexts = {
                 "GAME OVER",
                 Separator,
-                $"Score: {score}",
+                $"SCORE: {score} | HIGH: {highScore}",
                 Separator
             };
             return gameOverTexts;

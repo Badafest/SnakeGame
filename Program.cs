@@ -1,7 +1,12 @@
-﻿// See https://aka.ms/new-console-template for more information
-using SnakeGame;
+﻿using SnakeGame;
 
-Frame GameFrame = new(80, 100);
+int height = Console.WindowHeight;
+int width = Console.WindowWidth;
+
+Console.OutputEncoding = System.Text.Encoding.UTF8;
+
+int dim = Math.Min(height, width);
+Frame GameFrame = new(dim - 5, 2 * (dim - 2));
 GameFrame.Draw();
 GameFrame.CenteredText(Message.Introduction.Concat(Message.Instructions).ToArray());
 

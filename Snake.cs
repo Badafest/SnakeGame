@@ -3,7 +3,7 @@ namespace SnakeGame
     public enum Direction { LEFT, UP, RIGHT, DOWN };
     public class Snake
     {
-        private readonly char[] Characters = { '*', '*', '*', '*' };
+        private readonly string SnakeCharacter = "●";
         private readonly int[,] Offsets = { { 2, 0 }, { 0, -1 }, { -2, 0 }, { 0, 1 } };
         private List<int> State = new();
         private Direction CurrentDirection = Direction.RIGHT;
@@ -34,14 +34,6 @@ namespace SnakeGame
             TailX = HeadX - Length;
             TailY = HeadY;
             CurrentDirection = Direction.RIGHT;
-        }
-        private char StateCharacter(int index)
-        {
-            if (0 < index && index < Length)
-            {
-                return Characters[State[index]];
-            }
-            return Characters[0];
         }
 
         private int[] StateOffset(int index)
@@ -119,8 +111,8 @@ namespace SnakeGame
 
             for (int i = Length - 1; i >= 0; i--)
             {
-                Console.SetCursorPosition(x, y);
-                Console.Write(StateCharacter(i));
+                Console.SetCursorPosition(Math.Max(0, x), Math.Max(0, y));
+                Console.Write(SnakeCharacter);
                 if (i > 0)
                 {
                     State[i] = State[i - 1];

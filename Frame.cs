@@ -9,13 +9,13 @@ namespace SnakeGame
         public readonly int Top;
         public readonly int Bottom;
 
-        public Frame(int height = 100, int width = 100)
+        public Frame(int height = 10, int width = 10)
         {
-            Height = 3 * height / 7;
+            Height = height;
             Width = width;
             Left = 1;
             Top = 1;
-            Right = Width - 2;
+            Right = Width - 3;
             Bottom = Height;
             Console.CursorVisible = false;
         }
