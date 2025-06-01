@@ -8,7 +8,7 @@ Console.OutputEncoding = System.Text.Encoding.UTF8;
 int dim = Math.Min(height, width);
 Frame GameFrame = new(dim - 5, 2 * (dim - 2));
 GameFrame.Draw();
-GameFrame.CenteredText(Message.Introduction.Concat(Message.Instructions).ToArray());
+GameFrame.CenteredText([.. Message.Introduction, .. Message.Instructions]);
 
 Snake GameSnake = new(5, GameFrame.Left + GameFrame.Width / 2 + 3, GameFrame.Top + GameFrame.Height / 2);
 Fruit GameFruit = new() { GameFrame = GameFrame };

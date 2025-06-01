@@ -14,11 +14,12 @@ namespace SnakeGame
         private int Level = 1;
 
         private int HighScore = 0;
+        private Task? KeyPressTask;
         public void Init()
         {
             if (SnakeResetState == null)
             {
-                int[] SnakeInitialState = { GameSnake.Length, GameSnake.HeadX, GameSnake.HeadY };
+                int[] SnakeInitialState = [GameSnake.Length, GameSnake.HeadX, GameSnake.HeadY];
                 SnakeResetState = SnakeInitialState;
             }
             else
@@ -30,16 +31,21 @@ namespace SnakeGame
                 Score = 0;
             }
 
+            KeyPressTask = Task.Run(ListenKeyPress);
+
             while (GameRunning)
             {
-                Task.Run(ListenKeyPress);
+                if (KeyPressTask.IsCompleted)
+                {
+                    KeyPressTask = Task.Run(ListenKeyPress);
+                }
                 GameFrame.Draw();
                 bool ateOwnTail = GameSnake.Draw();
                 if (GameFrame.TouchedBorder(GameSnake.HeadX, GameSnake.HeadY) || ateOwnTail)
                 {
                     GameFrame.Draw();
                     GameRunning = false;
-                    GameFrame.CenteredText(Message.GameOverTexts(Score, HighScore).Concat(Message.Instructions).ToArray());
+                    GameFrame.CenteredText([.. Message.GameOverTexts(Score, HighScore), .. Message.Instructions]);
                     break;
                 }
                 GameFruit.Draw(Level);
@@ -55,12 +61,12 @@ namespace SnakeGame
                 Thread.Sleep(220 - (Level * 20));
             }
 
-            ListenKeyPress();
+            KeyPressTask?.Wait();
         }
 
         private void ListenKeyPress()
         {
-            var KeyPressed = Console.ReadKey();
+            var KeyPressed = Console.ReadKey(true);
             if (KeyPressed.Key == ConsoleKey.Escape)
             {
                 Frame.Clear();

@@ -28,7 +28,7 @@ namespace SnakeGame
 
         public void Draw()
         {
-            Console.Clear();
+            Console.SetCursorPosition(0, 0);
             var head = "╔" + new string('═', Width - 2) + "╗";
             var body = '║' + new string(' ', Width - 2) + '║';
             var tail = "╚" + new string('═', Width - 2) + "╝";

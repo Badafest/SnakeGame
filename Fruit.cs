@@ -4,9 +4,9 @@ namespace SnakeGame
     {
         private readonly static Random Random = new();
 
-        private readonly static string[] FruitCharacter = { "🍎", "🍏", "🍊", "🦎", "🍖", "🥩", "🐀", "🐤", "🦆", "🐐" };
+        private readonly static string[] FruitCharacter = ["🍎", "🍏", "🍊", "🦎", "🍖", "🥩", "🐀", "🐤", "🦆", "🐐"];
 
-        private readonly int[] Position = { 0, 0 };
+        private readonly int[] Position = [0, 0];
 
         public Frame GameFrame { get; set; } = new();
         public void Spawn()

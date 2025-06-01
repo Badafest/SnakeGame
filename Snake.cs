@@ -5,7 +5,7 @@ namespace SnakeGame
     {
         private readonly string SnakeCharacter = "●";
         private readonly int[,] Offsets = { { 2, 0 }, { 0, -1 }, { -2, 0 }, { 0, 1 } };
-        private List<int> State = new();
+        private List<int> State = [];
         private Direction CurrentDirection = Direction.RIGHT;
         public int HeadX = 0;
         public int HeadY = 0;
@@ -13,7 +13,7 @@ namespace SnakeGame
         public int TailX = 0;
         public int TailY = 0;
         public int Length = 5;
-        public int[] Anchor = { 0, 0 };
+        public int[] Anchor = [0, 0];
         public Snake(int length, int headX, int headY)
         {
             Length = length;
@@ -24,11 +24,12 @@ namespace SnakeGame
 
         public void Reset()
         {
-            State = new();
+            State = [];
             for (int i = 0; i < Length; i++)
             {
                 State.Add(0);
-            };
+            }
+            ;
             Anchor[0] = HeadX;
             Anchor[1] = HeadY;
             TailX = HeadX - Length;
@@ -44,7 +45,7 @@ namespace SnakeGame
             }
 
             var thisState = State[index];
-            int[] offset = { Offsets[thisState, 0], Offsets[thisState, 1] };
+            int[] offset = [Offsets[thisState, 0], Offsets[thisState, 1]];
 
             return offset;
         }
@@ -116,7 +117,7 @@ namespace SnakeGame
                 if (i > 0)
                 {
                     State[i] = State[i - 1];
-                    coords[Length - 1 - i] = new int[] { x, y };
+                    coords[Length - 1 - i] = [x, y];
                 }
                 else
                 {
